@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase 
+@inject IModalService Modal
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <button class="btn btn-link" @onclick="ShowLoginModal">Login</button>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private void ShowLoginModal()
+    {
+        Modal.Show<Login>("Login");
+    }
+}

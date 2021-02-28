@@ -1,0 +1,56 @@
+﻿@*@inject IAuthenticationService AuthService*@
+@inject NavigationManager _NavigationManager
+<div class="card">
+    <h4 class="card-header">Welcome to Supabase Blazor Todo example please SignUp</h4>
+    <div class="card-body">
+        <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label>Username</label>
+                <InputText @bind-Value="model.Email" class="form-control" />
+                <ValidationMessage For="@(() => model.Email)" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                <ValidationMessage For="@(() => model.Password)" />
+            </div>
+            <button class="btn btn-primary">
+                @if (loading)
+                {
+                    <span class="spinner-border spinner-border-sm mr-1"></span>
+                }
+                Login
+            </button>
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <div class="alert alert-danger mt-3 mb-0">@error</div>
+            }
+        </EditForm>
+    </div>
+</div>
+
+@code {
+
+    private LoginViewModel model = new LoginViewModel();
+    private bool loading;
+    private string error;
+
+
+    private async void HandleValidSubmit()
+    {
+        loading = true;
+        try
+        {
+            //await AuthService.Login(model.Email, model.Password);
+            //var returnUrl = NavigationManager.QueryString("returnUrl") ?? "";
+            _NavigationManager.NavigateTo("fetchdata");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}
